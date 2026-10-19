@@ -18,6 +18,11 @@ import ButtonLink from './ButtonLink.astro';
 
   <p class="mt-6 max-w-[34ch] text-xl leading-snug sm:mt-8 sm:text-2xl md:text-3xl">{site.pitch}</p>
 
+  <p class="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+    <span class="label text-accent">Now</span>
+    <span class="text-ink-muted">{site.now}</span>
+  </p>
+
   <ul class="mt-10 flex flex-wrap gap-3" aria-label="Quick links">
     <li>
       <ButtonLink href="#work" variant="primary">

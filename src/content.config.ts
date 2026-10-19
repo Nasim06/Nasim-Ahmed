@@ -1,5 +1,5 @@
 import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 /**
@@ -63,4 +63,14 @@ const experience = defineCollection({
   }),
 });
 
-export const collections = { projects, experience };
+const certifications = defineCollection({
+  loader: file('./src/content/certifications.json'),
+  schema: z.object({
+    name: z.string(),
+    issuer: z.string(),
+    url: z.url().optional(),
+    year: partialDate.optional(),
+  }),
+});
+
+export const collections = { projects, experience, certifications };

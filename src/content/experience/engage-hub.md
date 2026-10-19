@@ -2,12 +2,13 @@
 organisation: Engage Hub Ltd
 role: Junior Developer
 location: '[PLACEHOLDER] City / Remote'
-# [PLACEHOLDER] Add months once confirmed, e.g. '2022-09' and '2024-07'.
-start: '2022'
-end: '2024'
-summary: '[PLACEHOLDER] One line on what Engage Hub does and what you worked on.'
+start: '2022-02'
+end: '2024-02'
+summary: B2B SaaS for customer-journey automation.
 highlights:
-  - '[PLACEHOLDER] A feature or system you shipped'
-  - '[PLACEHOLDER] Something you learned or improved'
-stack: ['[PLACEHOLDER]']
+  - Built orchestration tooling on Java, JSP and PostgreSQL, including a customer-interaction reporting service.
+  - Led the migration of legacy UI from vanilla JavaScript and jQuery to React, while keeping existing components running.
+  - Kept the platform healthy by diagnosing and fixing technical issues.
+  - Tested new features against requirements before each release.
+stack: ['Java', 'JSP', 'PostgreSQL', 'React', 'JavaScript', 'jQuery']
 ---

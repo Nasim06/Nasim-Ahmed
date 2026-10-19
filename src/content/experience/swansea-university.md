@@ -3,8 +3,7 @@ kind: education
 organisation: Swansea University
 role: BSc Computer Science
 location: Swansea, UK
-# [PLACEHOLDER] Confirm years.
-start: '2019'
-end: '2022'
-summary: '[PLACEHOLDER] Classification and dissertation topic, e.g. "First-class honours; dissertation on …".'
+start: '2017-09'
+end: '2021-06'
+summary: Graduated with upper second-class honours (2:1).
 ---

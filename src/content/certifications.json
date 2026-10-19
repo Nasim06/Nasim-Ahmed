@@ -1,0 +1,14 @@
+[
+  {
+    "id": "ml-specialization",
+    "name": "Machine Learning Specialization",
+    "issuer": "DeepLearning.AI & Stanford University (Coursera)",
+    "url": "https://coursera.org/verify/specialization/9K7MSUPJEN52"
+  },
+  {
+    "id": "aws-cloud-practitioner-essentials",
+    "name": "AWS Cloud Practitioner Essentials",
+    "issuer": "Amazon Web Services (Coursera)",
+    "url": "https://coursera.org/verify/7SWS6V9SPWXX"
+  }
+]

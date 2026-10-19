@@ -3,11 +3,12 @@ organisation: Goss Interactive
 role: Software Engineer
 location: '[PLACEHOLDER] City / Remote'
 start: '2024-08'
-summary: Building SaaS products used by UK public-sector organisations.
+summary: Goss builds a CMS, form builder and case-management platform used mainly by UK public-sector organisations.
 highlights:
-  - '[PLACEHOLDER] Your most impressive outcome, with a number if possible'
-  - '[PLACEHOLDER] A cross-team or ownership highlight'
-  - '[PLACEHOLDER] Something on quality — accessibility, testing, performance'
-stack: ['[PLACEHOLDER]']
+  - Building the data layer for a new case-management product in TypeScript, Node.js and PostgreSQL, with Jest test coverage.
+  - Developing and maintaining Java services across the wider platform.
+  - Building and extending field types for the JavaScript form builder.
+  - '[PLACEHOLDER] Your strongest outcome here, ideally with a number (e.g. query time, test coverage, release cadence).'
+stack: ['TypeScript', 'Node.js', 'PostgreSQL', 'Jest', 'Java', 'JavaScript']
 url: https://www.gossinteractive.com
 ---

@@ -1,14 +1,16 @@
 ---
+import About from '@/components/About.astro';
 import ExperienceList from '@/components/ExperienceList.astro';
 import Hero from '@/components/Hero.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getExperience, getFeaturedProjects } from '@/lib/content';
+import { getCertifications, getExperience, getFeaturedProjects } from '@/lib/content';
 
 const projects = await getFeaturedProjects(3);
 const work = await getExperience('work');
 const education = await getExperience('education');
+const certifications = await getCertifications();
 ---
 
 <BaseLayout>
@@ -33,5 +35,10 @@ const education = await getExperience('education');
         <ExperienceList entries={education} headingLevel="h4" />
       </>
     )}
+  </section>
+
+  <section aria-labelledby="about" class="container-page mt-24 scroll-mt-4 sm:mt-32">
+    <SectionHeading id="about" index="03" title="About" />
+    <About certifications={certifications} />
   </section>
 </BaseLayout>

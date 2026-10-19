@@ -1,0 +1,51 @@
+---
+import { site } from '@/data/site';
+import type { Certification } from '@/lib/content';
+
+interface Props {
+  certifications: Certification[];
+}
+const { certifications } = Astro.props;
+---
+
+<div class="grid gap-12 pt-8 md:grid-cols-12 md:gap-8">
+  <div class="space-y-5 text-lg md:col-span-7">
+    {site.about.map((paragraph) => (
+      <p class="max-w-prose">{paragraph}</p>
+    ))}
+  </div>
+
+  <div class="space-y-10 md:col-span-4 md:col-start-9">
+    <div>
+      <h3 class="label text-ink-muted">Toolbox</h3>
+      <dl class="mt-4 space-y-4">
+        {site.skills.map((skill) => (
+          <div class="border-t border-rule pt-3">
+            <dt class="label">{skill.group}</dt>
+            <dd class="mt-1.5 text-ink-muted">{skill.items.join(' · ')}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    {certifications.length > 0 && (
+      <div>
+        <h3 class="label text-ink-muted">Certifications</h3>
+        <ul class="mt-4 space-y-4">
+          {certifications.map(({ data }) => (
+            <li class="border-t border-rule pt-3">
+              {data.url ? (
+                <a href={data.url} class="link font-medium">
+                  {data.name}
+                </a>
+              ) : (
+                <span class="font-medium">{data.name}</span>
+              )}
+              <p class="mt-1 text-sm text-ink-muted">{data.issuer}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</div>

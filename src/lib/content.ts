@@ -2,6 +2,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type Project = CollectionEntry<'projects'>;
 export type Experience = CollectionEntry<'experience'>;
+export type Certification = CollectionEntry<'certifications'>;
 
 /** Published projects, ordered for display. Drafts are shown in dev only. */
 export async function getProjects(): Promise<Project[]> {
@@ -21,6 +22,10 @@ export async function getExperience(kind?: Experience['data']['kind']): Promise<
     const endB = b.data.end ?? '9999';
     return endB.localeCompare(endA) || b.data.start.localeCompare(a.data.start);
   });
+}
+
+export async function getCertifications(): Promise<Certification[]> {
+  return getCollection('certifications');
 }
 
 const monthFmt = new Intl.DateTimeFormat('en-GB', {
