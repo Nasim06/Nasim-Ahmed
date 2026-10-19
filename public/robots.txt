@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nasim-ahmed.vercel.app/sitemap-index.xml
+Sitemap: https://nasim-ahmed-psi.vercel.app/sitemap-index.xml

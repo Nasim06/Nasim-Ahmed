@@ -8,8 +8,8 @@ const fontFile = (/** @type {string} */ pkg, /** @type {string} */ file) =>
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: replace with the real domain once it's live on Vercel.
-  site: 'https://nasim-ahmed.vercel.app',
+  // TODO: switch to the custom domain (nasim-dev.com / nas-dev.com) once bought.
+  site: 'https://nasim-ahmed-psi.vercel.app',
   trailingSlash: 'never',
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   integrations: [sitemap()],
