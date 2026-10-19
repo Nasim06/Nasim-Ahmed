@@ -4,11 +4,11 @@ summary: Building the TypeScript and PostgreSQL foundations of Goss Interactive'
 context: Goss Interactive
 role: Software Engineer
 year: '2025'
-stack: ['TypeScript', 'Node.js', 'PostgreSQL', 'Jest']
-# [PLACEHOLDER] Add up to three headline numbers, e.g.
-# outcomes:
-#   - value: '95%'
-#     label: 'data-layer test coverage'
+stack: ['TypeScript', 'Node.js', 'PostgreSQL', 'Vitest']
+outcomes:
+  - value: '80%+'
+    label: 'faster test runs (Jest to Vitest)'
+  # [PLACEHOLDER] Up to two more headline numbers.
 order: 1
 desktop:
   icon: folder-gov
@@ -26,12 +26,15 @@ launch date. Give one concrete detail that shows the stakes.
 
 ## Approach
 
-I worked on the data layer in TypeScript on Node.js, backed by PostgreSQL and tested with Jest.
+I worked on the data layer in TypeScript on Node.js, backed by PostgreSQL.
 
 - [PLACEHOLDER] How you structured it (e.g. repositories, a query builder or ORM, migrations,
   validation at the boundary) and why.
 - [PLACEHOLDER] How you made it trustworthy: transactions, constraints in the database, typed
   results, test fixtures against a real Postgres instance.
+- Moved the test suite from Jest to Vitest, which cut test run time by over 80%.
+  [PLACEHOLDER] What prompted it, what the migration involved, and what faster feedback changed
+  for the team.
 - [PLACEHOLDER] How other developers use it, and what you did to make that easy.
 
 ## Trade-offs
