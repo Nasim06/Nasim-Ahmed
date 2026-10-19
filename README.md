@@ -42,6 +42,18 @@ Search the repo for `[PLACEHOLDER]` to find everything still to write.
 - Put your CV at `public/cv.pdf`.
 - Set the real domain in `astro.config.mjs` (`site`) and `public/robots.txt`.
 
+## Themes
+
+Two themes share the same markup, switched by `data-theme` on `<html>`:
+
+- **paper** (default): pencil and ballpoint on unbleached paper; handwriting for headings and labels,
+  IBM Plex Serif for body text, sketched rules via an SVG filter.
+- **clean**: the original editorial look.
+
+Use the `rule-t` / `rule-b` / `rule-box` classes (not border utilities) for lines and outlines so
+both themes can draw them. Preview with `?theme=clean` and compare handwriting with
+`?hand=caveat|kalam|gochi|patrick`. The choice sticks for the browser tab.
+
 ## Planned
 
 - ⌘K command palette

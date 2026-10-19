@@ -8,14 +8,16 @@ interface Props extends HTMLAttributes<'a'> {
 const { variant = 'secondary', class: className, ...rest } = Astro.props;
 
 const variants = {
-  primary: 'border-accent bg-accent text-accent-ink hover:border-ink hover:bg-ink',
-  secondary: 'border-ink bg-transparent text-ink hover:bg-ink hover:text-paper',
+  primary:
+    'btn-primary bg-accent text-accent-ink [--rule-c:var(--color-accent)] hover:bg-ink hover:[--rule-c:var(--color-ink)]',
+  secondary:
+    'btn-secondary bg-transparent text-ink [--rule-c:var(--color-ink)] hover:bg-ink hover:text-paper',
 };
 ---
 
 <a
   class:list={[
-    'inline-flex min-h-12 items-center justify-center gap-2 rounded-full border-2 px-5 font-medium transition-colors duration-200',
+    'inline-flex min-h-12 items-center justify-center gap-2 rule-box rounded-full px-5 [--rule-w:2px] font-medium transition-colors duration-200',
     variants[variant],
     className,
   ]}

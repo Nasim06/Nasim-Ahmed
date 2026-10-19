@@ -20,7 +20,7 @@ const { certifications } = Astro.props;
       <h3 class="label text-ink-muted">Toolbox</h3>
       <dl class="mt-4 space-y-4">
         {site.skills.map((skill) => (
-          <div class="border-t border-rule pt-3">
+          <div class="rule-t pt-3">
             <dt class="label">{skill.group}</dt>
             <dd class="mt-1.5 text-ink-muted">{skill.items.join(' · ')}</dd>
           </div>
@@ -33,7 +33,7 @@ const { certifications } = Astro.props;
         <h3 class="label text-ink-muted">Certifications</h3>
         <ul class="mt-4 space-y-4">
           {certifications.map(({ data }) => (
-            <li class="border-t border-rule pt-3">
+            <li class="rule-t pt-3">
               {data.url ? (
                 <a href={data.url} class="link font-medium">
                   {data.name}

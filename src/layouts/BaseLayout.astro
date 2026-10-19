@@ -18,14 +18,44 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-GB" data-theme="paper" data-hand="caveat">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#F4F4F0" />
+    <meta name="theme-color" content="#E9DFC9" />
+
+    <!--
+      Prototype switcher: ?theme=clean|paper and ?hand=caveat|kalam|gochi|patrick.
+      Runs before paint to avoid a flash, and remembers the choice for this tab.
+    -->
+    <script is:inline>
+      (() => {
+        const allowed = {
+          theme: ['paper', 'clean'],
+          hand: ['caveat', 'kalam', 'gochi', 'patrick'],
+        };
+        const params = new URLSearchParams(location.search);
+        let store;
+        try {
+          store = window.sessionStorage;
+        } catch {
+          store = undefined;
+        }
+        for (const [key, values] of Object.entries(allowed)) {
+          let value = params.get(key);
+          try {
+            value = value ?? store?.getItem(key);
+            if (value && values.includes(value)) store?.setItem(key, value);
+          } catch {
+            /* storage unavailable: URL parameter still applies to this page */
+          }
+          if (value && values.includes(value)) document.documentElement.dataset[key] = value;
+        }
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -36,12 +66,51 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:site_name" content={site.name} />
     <meta name="twitter:card" content="summary" />
 
-    <!-- Preload only the faces used above the fold. -->
-    <Font cssVariable="--font-bricolage" preload />
-    <Font cssVariable="--font-plex-sans" preload={[{ weight: 400, style: 'normal' }]} />
+    <!-- Preload only the paper theme's above-the-fold faces; the rest load on use. -->
+    <Font cssVariable="--font-caveat" preload />
+    <Font cssVariable="--font-plex-serif" preload={[{ weight: 400, style: 'normal' }]} />
+    <Font cssVariable="--font-kalam" />
+    <Font cssVariable="--font-gochi" />
+    <Font cssVariable="--font-patrick" />
+    <Font cssVariable="--font-bricolage" />
+    <Font cssVariable="--font-plex-sans" />
     <Font cssVariable="--font-plex-mono" />
   </head>
   <body class="flex min-h-dvh flex-col">
+    <!-- Displacement filter that makes paper-theme rules look hand-drawn. -->
+    <svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+      <filter id="sketch" x="-5%" y="-60%" width="110%" height="220%">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.035"
+          numOctaves="2"
+          seed="4"
+          result="wobble"
+        />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="wobble"
+          scale="3.5"
+          xChannelSelector="R"
+          yChannelSelector="G"
+          result="line"
+        />
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.9"
+          numOctaves="1"
+          seed="9"
+          result="grain"
+        />
+        <feColorMatrix
+          in="grain"
+          type="matrix"
+          values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.75"
+          result="grainMask"
+        />
+        <feComposite in="line" in2="grainMask" operator="in" />
+      </filter>
+    </svg>
     <SkipLink />
     <SiteHeader />
     <main id="main" tabindex="-1" class="flex-1">

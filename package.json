@@ -21,8 +21,13 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/caveat": "^5.3.0",
+    "@fontsource/gochi-hand": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@fontsource/ibm-plex-serif": "^5.3.0",
+    "@fontsource/kalam": "^5.3.0",
+    "@fontsource/patrick-hand": "^5.3.0",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.0",

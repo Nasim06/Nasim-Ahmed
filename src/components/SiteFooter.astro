@@ -9,7 +9,7 @@ const links = [
 ];
 ---
 
-<footer id="contact" class="mt-24 border-t-2 border-ink sm:mt-32">
+<footer id="contact" class="rule-t rule-strong mt-24 sm:mt-32">
   <div class="container-page grid gap-10 py-14 md:grid-cols-12">
     <div class="md:col-span-7">
       <p class="label text-ink-muted">Contact</p>
@@ -27,9 +27,9 @@ const links = [
 
     <nav aria-label="Elsewhere" class="md:col-span-4 md:col-start-9">
       <p class="label text-ink-muted">Elsewhere</p>
-      <ul class="mt-4 divide-y divide-rule border-y border-rule">
+      <ul class="rule-t mt-4">
         {links.map((link) => (
-          <li>
+          <li class="rule-b">
             <a
               href={link.href}
               rel={link.rel}
@@ -39,7 +39,7 @@ const links = [
             </a>
           </li>
         ))}
-        <li>
+        <li class="rule-b">
           <a
             href={site.links.cv}
             data-astro-prefetch="false"
@@ -52,7 +52,7 @@ const links = [
     </nav>
   </div>
 
-  <div class="container-page flex flex-col gap-2 border-t border-rule py-6 text-ink-muted sm:flex-row sm:justify-between">
+  <div class="container-page rule-t flex flex-col gap-2 py-6 text-ink-muted sm:flex-row sm:justify-between">
     <p class="label">
       © {year} {site.name}
     </p>

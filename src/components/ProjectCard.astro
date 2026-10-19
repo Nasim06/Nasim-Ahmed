@@ -16,7 +16,7 @@ const headline = outcomes[0];
   The whole card is clickable via the stretched ::after on the title link,
   but there's only one link (and one tab stop) per card.
 -->
-<article class="group relative grid gap-6 border-b border-rule py-8 transition-colors hover:border-ink md:grid-cols-12 md:gap-8 md:py-10">
+<article class="group rule-b relative grid gap-6 py-8 hover:[--rule-c:var(--color-ink)] md:grid-cols-12 md:gap-8 md:py-10">
   <p class="label hidden text-ink-muted md:col-span-1 md:block" aria-hidden="true">
     {number}
   </p>
@@ -36,7 +36,7 @@ const headline = outcomes[0];
     <p class="mt-3 max-w-prose text-ink-muted">{summary}</p>
     <ul class="mt-5 flex flex-wrap gap-2" aria-label="Tech stack">
       {stack.map((tech) => (
-        <li class="label rounded-full border border-rule px-2.5 py-1">{tech}</li>
+        <li class="label rule-box rounded-full px-2.5 py-1">{tech}</li>
       ))}
     </ul>
   </div>

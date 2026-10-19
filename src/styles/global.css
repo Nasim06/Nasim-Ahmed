@@ -1,8 +1,11 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
-/* Design tokens. Astro's Fonts API provides the --font-* family variables. */
-@theme inline {
+/*
+ * Design tokens. Astro's Fonts API provides the --font-* family variables.
+ * Not 'inline', so themes can override these on :root (see the paper theme below).
+ */
+@theme {
   --font-display: var(--font-bricolage);
   --font-sans: var(--font-plex-sans);
   --font-mono: var(--font-plex-mono);
@@ -95,6 +98,39 @@
     color: var(--color-accent);
   }
 
+  /*
+   * Rules and outlines. Use these instead of border utilities so each theme can draw them:
+   * plain lines in the clean theme, sketched pencil strokes in the paper theme.
+   * Tweak per element with [--rule-c:...] / [--rule-w:...].
+   */
+  .rule-t,
+  .rule-b,
+  .rule-box {
+    --rule-w: 1px;
+    --rule-c: var(--color-rule);
+  }
+
+  .rule-strong {
+    --rule-w: 2px;
+    --rule-c: var(--color-ink);
+  }
+
+  .rule-t {
+    border-top: var(--rule-w) solid var(--rule-c);
+  }
+
+  .rule-b {
+    border-bottom: var(--rule-w) solid var(--rule-c);
+  }
+
+  .rule-box {
+    border: var(--rule-w) solid var(--rule-c);
+  }
+
+  .paper-only {
+    display: none;
+  }
+
   .container-page {
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10;
   }
@@ -126,5 +162,174 @@
 @media (forced-colors: active) {
   :focus-visible {
     outline-color: Highlight;
+  }
+}
+
+/* ==========================================================================
+   Paper theme: pencil and ballpoint on thick unbleached paper.
+   Enabled with <html data-theme="paper">. Handwriting face set by data-hand.
+   ========================================================================== */
+
+:root[data-theme='paper'] {
+  /* Kraft paper. All text colours below pass WCAG AA against it. */
+  --color-paper: #e9dfc9;
+  --color-paper-raised: #efe7d5;
+  /* Dark graphite: 13:1. */
+  --color-ink: #262422;
+  /* Soft graphite: 5.9:1. */
+  --color-ink-muted: #57514a;
+  --color-rule: #a3957c;
+  /* Blue ballpoint: 6.7:1. */
+  --color-accent: #1d35c4;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: rgb(29 53 196 / 0.1);
+
+  --font-hand: var(--font-caveat);
+  --font-display: var(--font-hand);
+  --font-sans: var(--font-plex-serif);
+
+  /* Single-weight handwriting fonts shouldn't get fake bold. */
+  font-synthesis-weight: none;
+}
+
+:root[data-theme='paper'][data-hand='kalam'] {
+  --font-hand: var(--font-kalam);
+}
+:root[data-theme='paper'][data-hand='gochi'] {
+  --font-hand: var(--font-gochi);
+}
+:root[data-theme='paper'][data-hand='patrick'] {
+  --font-hand: var(--font-patrick);
+}
+
+/* Paper grain, long fibres and a soft vignette, all generated (no image requests). */
+:root[data-theme='paper'] body {
+  background-image:
+    radial-gradient(ellipse at 50% 40%, transparent 55%, rgb(110 80 30 / 0.14) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .24 0 0 0 0 .12 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.004 .09' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .36 0 0 0 0 .2 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-attachment: fixed, scroll, scroll;
+}
+
+@layer components {
+  :root[data-theme='paper'] .label {
+    font-family: var(--font-hand);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    line-height: 1.2;
+  }
+
+  :root[data-theme='paper'] .paper-only {
+    display: block;
+  }
+
+  /* Sketched rules: the real border is replaced by a pseudo-element run through the
+     #sketch SVG filter (defined in BaseLayout), so text is never distorted. */
+  :root[data-theme='paper'] :is(.rule-t, .rule-b, .rule-box) {
+    border: 0;
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Backgrounds (e.g. button washes) follow the same hand-drawn shape as the outline. */
+  :root[data-theme='paper'] .rule-box {
+    border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  }
+
+  :root[data-theme='paper'] .rule-t::before,
+  :root[data-theme='paper'] .rule-b::after,
+  :root[data-theme='paper'] .rule-box::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    filter: url(#sketch);
+  }
+
+  :root[data-theme='paper'] .rule-t::before {
+    inset: 0 0 auto;
+    height: 6px;
+    border-top: calc(var(--rule-w) + 0.5px) solid var(--rule-c);
+  }
+
+  :root[data-theme='paper'] .rule-b::after {
+    inset: auto 0 0;
+    height: 6px;
+    border-bottom: calc(var(--rule-w) + 0.5px) solid var(--rule-c);
+  }
+
+  /* The classic uneven-radius trick makes boxes look drawn by hand. */
+  :root[data-theme='paper'] .rule-box::before {
+    inset: 0;
+    border: calc(var(--rule-w) + 0.5px) solid var(--rule-c);
+    border-radius: inherit;
+  }
+
+  /* A pencil circle around small markers such as section numbers. */
+  :root[data-theme='paper'] .circled {
+    position: relative;
+    isolation: isolate;
+    padding: 0.15em 0.5em;
+  }
+
+  :root[data-theme='paper'] .circled::before {
+    content: '';
+    position: absolute;
+    inset: -0.1em -0.15em;
+    z-index: -1;
+    border: 1.5px solid var(--color-ink-muted);
+    border-radius: 50% 45% 55% 40% / 55% 40% 60% 45%;
+    transform: rotate(-4deg);
+    filter: url(#sketch);
+  }
+
+  :root[data-theme='paper'] .tilt {
+    transform: rotate(-2deg);
+  }
+}
+
+/* Unlayered so it beats utility classes: handwriting needs room, not tight tracking. */
+:root[data-theme='paper'] :is(h1, h2, h3, h4, .font-display) {
+  letter-spacing: 0.005em;
+  font-size-adjust: 0.48;
+}
+
+:root[data-theme='paper'] .label {
+  font-size-adjust: 0.48;
+}
+
+/* Buttons become ink washes rather than solid fills. */
+:root[data-theme='paper'] .btn-primary {
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+:root[data-theme='paper'] .btn-primary:hover {
+  background-color: rgb(29 53 196 / 0.18);
+}
+
+:root[data-theme='paper'] .btn-secondary:hover {
+  background-color: rgb(38 36 34 / 0.08);
+  color: var(--color-ink);
+}
+
+/* Hand-drawn underline under the hero name. */
+.scribble path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scribble path {
+    stroke-dashoffset: 1;
+    animation: draw-in 0.9s var(--ease-out-quint) 0.35s forwards;
+  }
+}
+
+@keyframes draw-in {
+  to {
+    stroke-dashoffset: 0;
   }
 }

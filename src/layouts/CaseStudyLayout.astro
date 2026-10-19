@@ -34,7 +34,7 @@ const meta = [
       </h1>
       <p class="mt-6 max-w-[48ch] text-xl leading-snug sm:text-2xl">{summary}</p>
 
-      <dl class="mt-12 grid grid-cols-2 gap-x-6 gap-y-6 border-t-2 border-ink pt-6 md:grid-cols-4">
+      <dl class="mt-12 grid grid-cols-2 gap-x-6 gap-y-6 rule-t rule-strong pt-6 md:grid-cols-4">
         {meta.map((item) => (
           <div>
             <dt class="label text-ink-muted">{item.label}</dt>
@@ -70,7 +70,7 @@ const meta = [
     <div class="container-page grid grid-cols-1 gap-12 lg:grid-cols-12">
       <aside class="lg:col-span-3" aria-label="Case study">
         <div class="lg:sticky lg:top-8">
-          <nav aria-labelledby="toc-title" class="border-t border-rule pt-4">
+          <nav aria-labelledby="toc-title" class="rule-t pt-4">
             <h2 id="toc-title" class="label text-ink-muted">
               On this page
             </h2>
@@ -92,7 +92,7 @@ const meta = [
           </nav>
 
           {outcomes.length > 0 && (
-            <section aria-labelledby="outcomes-title" class="mt-10 border-t border-rule pt-4">
+            <section aria-labelledby="outcomes-title" class="rule-t mt-10 pt-4">
               <h2 id="outcomes-title" class="label text-ink-muted">
                 Outcomes
               </h2>
@@ -116,10 +116,7 @@ const meta = [
 
     {next && (
       <nav aria-label="Next case study" class="container-page mt-24">
-        <a
-          href={`/work/${next.id}`}
-          class="group block border-t-2 border-ink pt-6 hover:text-accent"
-        >
+        <a href={`/work/${next.id}`} class="group rule-t rule-strong block pt-6 hover:text-accent">
           <span class="label text-ink-muted">Next case study</span>
           <span class="mt-3 flex items-baseline justify-between gap-6 font-display text-3xl font-bold tracking-tight sm:text-5xl">
             {next.data.title}
@@ -171,6 +168,24 @@ const meta = [
     scroll-margin-top: 1.5rem;
   }
 
+  /* Paper theme: sketched pencil rule above each section heading. */
+  :global(:root[data-theme='paper']) .case-study :global(h2) {
+    border-top: 0;
+    position: relative;
+    isolation: isolate;
+  }
+
+  :global(:root[data-theme='paper']) .case-study :global(h2)::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    height: 6px;
+    border-top: 2.5px solid var(--color-ink);
+    filter: url(#sketch);
+    pointer-events: none;
+  }
+
   .case-study :global(h2:first-child) {
     margin-top: 0;
   }
@@ -184,6 +199,13 @@ const meta = [
     font-weight: 500;
     letter-spacing: 0.08em;
     color: var(--color-accent);
+  }
+
+  :global(:root[data-theme='paper']) .case-study :global(h2)::before {
+    font-family: var(--font-hand);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0;
   }
 
   .case-study :global(a) {

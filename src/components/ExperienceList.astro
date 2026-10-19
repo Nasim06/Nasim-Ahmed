@@ -11,7 +11,7 @@ const { entries, headingLevel: Heading = 'h3' } = Astro.props;
 
 <ol>
   {entries.map(({ data }) => (
-    <li class="grid gap-3 border-b border-rule py-8 md:grid-cols-12 md:gap-8">
+    <li class="rule-b grid gap-3 py-8 md:grid-cols-12 md:gap-8">
       <p class="label text-ink-muted md:col-span-3 md:pt-1.5">
         <time datetime={data.start}>{formatPartialDate(data.start)}</time> –{' '}
         {data.end ? <time datetime={data.end}>{formatPartialDate(data.end)}</time> : 'Present'}

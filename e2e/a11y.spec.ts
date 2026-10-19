@@ -12,16 +12,19 @@ async function getRoutes(page: Page): Promise<string[]> {
 }
 
 test.describe('accessibility (axe, WCAG 2.2 AA)', () => {
-  test('every page has no detectable violations', async ({ page }) => {
-    const routes = await getRoutes(page);
-    expect(routes.length).toBeGreaterThan(2);
+  for (const theme of ['paper', 'clean'] as const) {
+    test(`every page has no detectable violations (${theme} theme)`, async ({ page }) => {
+      const routes = await getRoutes(page);
+      expect(routes.length).toBeGreaterThan(2);
 
-    for (const route of routes) {
-      await page.goto(route);
-      const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
-      expect(results.violations, `axe violations on ${route}`).toEqual([]);
-    }
-  });
+      for (const route of routes) {
+        await page.goto(`${route}?theme=${theme}`);
+        await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+        const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
+        expect(results.violations, `axe violations on ${route} (${theme})`).toEqual([]);
+      }
+    });
+  }
 });
 
 test.describe('keyboard navigation', () => {
