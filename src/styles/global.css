@@ -1,0 +1,130 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Design tokens. Astro's Fonts API provides the --font-* family variables. */
+@theme inline {
+  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+}
+
+@theme {
+  --color-paper: #f4f4f0;
+  --color-paper-raised: #fbfbf8;
+  --color-ink: #111110;
+  /* Muted text: 7.1:1 on paper (AA for all sizes). */
+  --color-ink-muted: #4f4f4a;
+  --color-rule: #d4d4cc;
+  /* Electric blue: 6.9:1 on paper, 7.6:1 with white text. */
+  --color-accent: #1f3be0;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #e3e7fc;
+
+  --text-display: clamp(3rem, 1.6rem + 7vw, 7.5rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.035em;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-balance;
+    font-optical-sizing: auto;
+  }
+
+  p {
+    @apply text-pretty;
+  }
+
+  ::selection {
+    @apply bg-accent text-accent-ink;
+  }
+
+  /* One consistent, high-contrast focus ring everywhere. */
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Programmatic focus targets (e.g. <main> after the skip link) shouldn't show a ring. */
+  [tabindex='-1']:focus {
+    outline: none;
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  :target {
+    scroll-margin-top: 2rem;
+  }
+}
+
+@layer components {
+  /* Small uppercase mono labels used for metadata and section kickers. */
+  .label {
+    @apply font-mono text-xs font-medium tracking-[0.08em] uppercase;
+  }
+
+  .link {
+    @apply underline decoration-current/40 hover:text-accent hover:decoration-accent;
+  }
+
+  /* Signature full stop after names/headlines. Empty alt text keeps screen readers quiet. */
+  .accent-dot::after {
+    content: '.' / '';
+    color: var(--color-accent);
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10;
+  }
+}
+
+/* Motion is opt-in: only animate for people who haven't asked for less. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Windows High Contrast / forced colours: keep focus and borders visible. */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
+  }
+}

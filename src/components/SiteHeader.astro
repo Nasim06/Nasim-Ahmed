@@ -1,0 +1,37 @@
+---
+import { site } from '@/data/site';
+
+const isHome = Astro.url.pathname === '/';
+// On case-study pages, section links point back to the homepage anchors.
+const base = isHome ? '' : '/';
+
+const nav = [
+  { href: `${base}#work`, label: 'Work' },
+  { href: `${base}#experience`, label: 'Experience' },
+  { href: `${base}#contact`, label: 'Contact' },
+];
+---
+
+<header class="container-page flex items-center justify-between gap-4 py-5">
+  <a
+    href="/"
+    class="accent-dot font-display text-lg font-bold tracking-tight hover:text-accent"
+    aria-current={isHome ? 'page' : undefined}
+  >
+    {site.name}
+  </a>
+  <nav aria-label="Primary">
+    <ul class="flex gap-1 sm:gap-2">
+      {nav.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="label inline-flex min-h-11 items-center px-2 hover:text-accent sm:px-3"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>

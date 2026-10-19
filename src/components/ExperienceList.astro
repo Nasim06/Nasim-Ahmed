@@ -1,0 +1,51 @@
+---
+import { formatPartialDate, type Experience } from '@/lib/content';
+
+interface Props {
+  entries: Experience[];
+  /** Use h4 when the list sits under a sub-heading (e.g. Education). */
+  headingLevel?: 'h3' | 'h4';
+}
+const { entries, headingLevel: Heading = 'h3' } = Astro.props;
+---
+
+<ol>
+  {entries.map(({ data }) => (
+    <li class="grid gap-3 border-b border-rule py-8 md:grid-cols-12 md:gap-8">
+      <p class="label text-ink-muted md:col-span-3 md:pt-1.5">
+        <time datetime={data.start}>{formatPartialDate(data.start)}</time> –{' '}
+        {data.end ? <time datetime={data.end}>{formatPartialDate(data.end)}</time> : 'Present'}
+      </p>
+      <div class="md:col-span-9">
+        <Heading class="text-xl font-bold tracking-tight sm:text-2xl">
+          {data.role}{' '}
+          <span class="font-normal text-ink-muted">
+            ·{' '}
+            {data.url ? (
+              <a href={data.url} class="link">
+                {data.organisation}
+              </a>
+            ) : (
+              data.organisation
+            )}
+          </span>
+        </Heading>
+        {data.location && <p class="label mt-2 text-ink-muted">{data.location}</p>}
+        <p class="mt-3 max-w-prose">{data.summary}</p>
+        {data.highlights.length > 0 && (
+          <ul class="mt-4 max-w-prose list-disc space-y-1.5 pl-5 marker:text-accent">
+            {data.highlights.map((highlight) => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+        )}
+        {data.stack.length > 0 && (
+          <p class="label mt-4 text-ink-muted">
+            <span class="sr-only">Tech stack: </span>
+            {data.stack.join(' · ')}
+          </p>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>

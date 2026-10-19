@@ -1,0 +1,196 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import type { Project } from '@/lib/content';
+
+interface Props {
+  project: Project;
+  headings: MarkdownHeading[];
+  next?: Project;
+}
+
+const { project, headings, next } = Astro.props;
+const { title, summary, context, role, year, stack, outcomes, links } = project.data;
+const sections = headings.filter((h) => h.depth === 2);
+
+const meta = [
+  { label: 'Role', value: role },
+  { label: 'Context', value: context },
+  { label: 'Year', value: year },
+];
+---
+
+<BaseLayout title={title} description={summary} type="article">
+  <article>
+    <header class="container-page pt-8 pb-12 sm:pt-12 sm:pb-16">
+      <a href="/#work" class="label inline-flex min-h-11 items-center gap-2 hover:text-accent">
+        <span aria-hidden="true">←</span> All work
+      </a>
+      <p class="label mt-8 text-ink-muted">
+        Case study · {context} · {year}
+      </p>
+      <h1 class="mt-4 max-w-[20ch] text-5xl leading-[0.95] font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
+        {title}
+      </h1>
+      <p class="mt-6 max-w-[48ch] text-xl leading-snug sm:text-2xl">{summary}</p>
+
+      <dl class="mt-12 grid grid-cols-2 gap-x-6 gap-y-6 border-t-2 border-ink pt-6 md:grid-cols-4">
+        {meta.map((item) => (
+          <div>
+            <dt class="label text-ink-muted">{item.label}</dt>
+            <dd class="mt-1.5">{item.value}</dd>
+          </div>
+        ))}
+        <div class="col-span-2 md:col-span-1">
+          <dt class="label text-ink-muted">Stack</dt>
+          <dd class="mt-1.5">{stack.join(', ')}</dd>
+        </div>
+      </dl>
+
+      {(links.live || links.repo) && (
+        <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+          {links.live && (
+            <li>
+              <a href={links.live} class="link font-medium">
+                Visit live site <span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          )}
+          {links.repo && (
+            <li>
+              <a href={links.repo} class="link font-medium">
+                View source <span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          )}
+        </ul>
+      )}
+    </header>
+
+    <div class="container-page grid grid-cols-1 gap-12 lg:grid-cols-12">
+      <aside class="lg:col-span-3" aria-label="Case study">
+        <div class="lg:sticky lg:top-8">
+          <nav aria-labelledby="toc-title" class="border-t border-rule pt-4">
+            <h2 id="toc-title" class="label text-ink-muted">
+              On this page
+            </h2>
+            <ol class="mt-3 space-y-1">
+              {sections.map((section, i) => (
+                <li>
+                  <a
+                    href={`#${section.slug}`}
+                    class="group flex min-h-10 items-center gap-3 hover:text-accent"
+                  >
+                    <span class="label text-ink-muted group-hover:text-accent">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    {section.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+
+          {outcomes.length > 0 && (
+            <section aria-labelledby="outcomes-title" class="mt-10 border-t border-rule pt-4">
+              <h2 id="outcomes-title" class="label text-ink-muted">
+                Outcomes
+              </h2>
+              <dl class="mt-4 space-y-5">
+                {outcomes.map((o) => (
+                  <div class="flex flex-col-reverse">
+                    <dt class="label text-ink-muted">{o.label}</dt>
+                    <dd class="font-display text-4xl font-bold text-accent">{o.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          )}
+        </div>
+      </aside>
+
+      <div class="case-study prose min-w-0 max-w-none prose-lg lg:col-span-8 lg:col-start-5">
+        <slot />
+      </div>
+    </div>
+
+    {next && (
+      <nav aria-label="Next case study" class="container-page mt-24">
+        <a
+          href={`/work/${next.id}`}
+          class="group block border-t-2 border-ink pt-6 hover:text-accent"
+        >
+          <span class="label text-ink-muted">Next case study</span>
+          <span class="mt-3 flex items-baseline justify-between gap-6 font-display text-3xl font-bold tracking-tight sm:text-5xl">
+            {next.data.title}
+            <span
+              aria-hidden="true"
+              class="transition-transform duration-300 group-hover:translate-x-2"
+            >
+              →
+            </span>
+          </span>
+        </a>
+      </nav>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  /* Typography plugin themed to the site palette. */
+  .case-study {
+    --tw-prose-body: var(--color-ink);
+    --tw-prose-headings: var(--color-ink);
+    --tw-prose-lead: var(--color-ink-muted);
+    --tw-prose-links: var(--color-accent);
+    --tw-prose-bold: var(--color-ink);
+    --tw-prose-counters: var(--color-ink-muted);
+    --tw-prose-bullets: var(--color-accent);
+    --tw-prose-hr: var(--color-rule);
+    --tw-prose-quotes: var(--color-ink);
+    --tw-prose-quote-borders: var(--color-accent);
+    --tw-prose-code: var(--color-ink);
+    --tw-prose-pre-code: var(--color-paper);
+    --tw-prose-pre-bg: var(--color-ink);
+    --tw-prose-th-borders: var(--color-ink);
+    --tw-prose-td-borders: var(--color-rule);
+    counter-reset: section;
+  }
+
+  /* Numbered editorial section headings: "01 Problem", "02 Approach", ... */
+  .case-study :global(h2) {
+    counter-increment: section;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+    line-height: 1.05;
+    margin-top: 4rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--color-ink);
+    scroll-margin-top: 1.5rem;
+  }
+
+  .case-study :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .case-study :global(h2::before) {
+    content: counter(section, decimal-leading-zero);
+    display: block;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+
+  .case-study :global(a) {
+    text-underline-offset: 0.2em;
+  }
+
+  .case-study :global(pre) {
+    border-radius: 0.25rem;
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { CASE_STUDY_SECTIONS, getProjects, type Project } from '@/lib/content';
+
+export const getStaticPaths = (async () => {
+  const projects = await getProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+  next: Project;
+}
+
+const { project, next } = Astro.props;
+const { Content, headings } = await render(project);
+
+// Every case study follows the same narrative. Fail the build loudly if one drifts.
+const sectionTitles = headings.filter((h) => h.depth === 2).map((h) => h.text);
+if (sectionTitles.join('|') !== CASE_STUDY_SECTIONS.join('|')) {
+  throw new Error(
+    `Case study "${project.id}" must have exactly these "##" sections, in order: ` +
+      `${CASE_STUDY_SECTIONS.join(', ')}. Found: ${sectionTitles.join(', ') || 'none'}.`,
+  );
+}
+---
+
+<CaseStudyLayout
+  project={project}
+  headings={headings}
+  next={next.id === project.id ? undefined : next}
+>
+  <Content />
+</CaseStudyLayout>

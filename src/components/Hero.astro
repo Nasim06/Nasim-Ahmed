@@ -1,0 +1,43 @@
+---
+import { site } from '@/data/site';
+import AvailabilityBadge from './AvailabilityBadge.astro';
+import ButtonLink from './ButtonLink.astro';
+---
+
+<section aria-labelledby="hero-title" class="container-page pt-10 pb-20 sm:pt-16 sm:pb-28">
+  <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
+    {site.openToWork && <AvailabilityBadge label={site.availability} />}
+    <p class="label text-ink-muted">
+      {site.role} · {site.location}
+    </p>
+  </div>
+
+  <h1 id="hero-title" class="accent-dot mt-8 text-display font-extrabold sm:mt-10">
+    {site.name}
+  </h1>
+
+  <p class="mt-6 max-w-[34ch] text-xl leading-snug sm:mt-8 sm:text-2xl md:text-3xl">{site.pitch}</p>
+
+  <ul class="mt-10 flex flex-wrap gap-3" aria-label="Quick links">
+    <li>
+      <ButtonLink href="#work" variant="primary">
+        See selected work <span aria-hidden="true">↓</span>
+      </ButtonLink>
+    </li>
+    <li>
+      <ButtonLink href={site.links.cv} data-astro-prefetch="false">
+        Download CV <span class="sr-only">(PDF)</span>
+      </ButtonLink>
+    </li>
+    <li>
+      <ButtonLink href={site.links.github} rel="me">
+        GitHub
+      </ButtonLink>
+    </li>
+    <li>
+      <ButtonLink href={site.links.linkedin} rel="me">
+        LinkedIn
+      </ButtonLink>
+    </li>
+  </ul>
+</section>

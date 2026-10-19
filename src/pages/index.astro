@@ -1,0 +1,37 @@
+---
+import ExperienceList from '@/components/ExperienceList.astro';
+import Hero from '@/components/Hero.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getExperience, getFeaturedProjects } from '@/lib/content';
+
+const projects = await getFeaturedProjects(3);
+const work = await getExperience('work');
+const education = await getExperience('education');
+---
+
+<BaseLayout>
+  <Hero />
+
+  <section aria-labelledby="work" class="container-page scroll-mt-4">
+    <SectionHeading id="work" index="01" title="Selected work" />
+    <div>
+      {projects.map((project, index) => (
+        <ProjectCard project={project} index={index} />
+      ))}
+    </div>
+  </section>
+
+  <section aria-labelledby="experience" class="container-page mt-24 scroll-mt-4 sm:mt-32">
+    <SectionHeading id="experience" index="02" title="Experience" />
+    <ExperienceList entries={work} />
+
+    {education.length > 0 && (
+      <>
+        <h3 class="label mt-14 text-ink-muted">Education</h3>
+        <ExperienceList entries={education} headingLevel="h4" />
+      </>
+    )}
+  </section>
+</BaseLayout>

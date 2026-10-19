@@ -1,0 +1,61 @@
+---
+import { site } from '@/data/site';
+
+const year = new Date().getFullYear();
+
+const links = [
+  { href: site.links.github, label: 'GitHub', rel: 'me' },
+  { href: site.links.linkedin, label: 'LinkedIn', rel: 'me' },
+];
+---
+
+<footer id="contact" class="mt-24 border-t-2 border-ink sm:mt-32">
+  <div class="container-page grid gap-10 py-14 md:grid-cols-12">
+    <div class="md:col-span-7">
+      <p class="label text-ink-muted">Contact</p>
+      <h2 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+        Let's build something useful.
+      </h2>
+      <p class="mt-4 max-w-prose text-ink-muted">{site.availabilityDetail}</p>
+      <a
+        href={`mailto:${site.links.email}`}
+        class="mt-6 inline-block font-display text-2xl font-semibold break-all text-accent underline decoration-2 underline-offset-4 hover:decoration-4 sm:text-3xl"
+      >
+        {site.links.email}
+      </a>
+    </div>
+
+    <nav aria-label="Elsewhere" class="md:col-span-4 md:col-start-9">
+      <p class="label text-ink-muted">Elsewhere</p>
+      <ul class="mt-4 divide-y divide-rule border-y border-rule">
+        {links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              rel={link.rel}
+              class="flex min-h-12 items-center justify-between hover:text-accent"
+            >
+              {link.label} <span aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+        <li>
+          <a
+            href={site.links.cv}
+            data-astro-prefetch="false"
+            class="flex min-h-12 items-center justify-between hover:text-accent"
+          >
+            CV <span class="label text-ink-muted">PDF</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container-page flex flex-col gap-2 border-t border-rule py-6 text-ink-muted sm:flex-row sm:justify-between">
+    <p class="label">
+      © {year} {site.name}
+    </p>
+    <p class="label">Built with Astro · Hosted on Vercel</p>
+  </div>
+</footer>

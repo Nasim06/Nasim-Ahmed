@@ -1,0 +1,52 @@
+---
+import { Font } from 'astro:assets';
+import SiteFooter from '@/components/SiteFooter.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import SkipLink from '@/components/SkipLink.astro';
+import { site } from '@/data/site';
+import '@/styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  type?: 'website' | 'article';
+}
+
+const { title, description = site.description, type = 'website' } = Astro.props;
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#F4F4F0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.name} />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Preload only the faces used above the fold. -->
+    <Font cssVariable="--font-bricolage" preload />
+    <Font cssVariable="--font-plex-sans" preload={[{ weight: 400, style: 'normal' }]} />
+    <Font cssVariable="--font-plex-mono" />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <SkipLink />
+    <SiteHeader />
+    <main id="main" tabindex="-1" class="flex-1">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>
